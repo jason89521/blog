@@ -17,8 +17,7 @@ const geistMono = localFont({
 });
 
 const themeScript = `
-  ${getInitTheme.toString()};
-  const theme = getInitTheme();
+  const theme = (${getInitTheme.toString()})();
   document.documentElement.dataset.theme = theme;
 `;
 
