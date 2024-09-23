@@ -28,14 +28,15 @@ async function listPostFilenames() {
   return filenames;
 }
 
-interface ListPostResult extends Omit<Post, 'content'> {}
+type ListPostResult = Omit<Post, 'content'>;
 
 export async function listPost(): Promise<ListPostResult[]> {
   const filenames = await listPostFilenames();
   return await Promise.all(
     filenames.map(async filename => {
-      const { content, ...rest } = await getPostData(filename);
-      return rest;
+      const data = await getPostData(filename);
+      delete data.content;
+      return data;
     })
   );
 }
@@ -67,14 +68,14 @@ export async function getPost(slug: string): Promise<GetPostResult | null> {
 }
 
 async function getPostData(filename: string): Promise<Post> {
-  const module: typeof import('*.md') = await import(`@/posts/${filename}`);
+  const m: typeof import('*.md') = await import(`@/posts/${filename}`);
   const { name } = path.parse(filename);
   const dateMatch = filename.match(DATE_PATTERN);
   if (!dateMatch) {
     throw new Error('Cannot match date in post file.');
   }
   const date = dateMatch[0];
-  const { title, description, excerpt, content } = parseRoot(module.default, Schema);
+  const { title, description, excerpt, content } = parseRoot(m.default, Schema);
 
   return {
     title,

@@ -44,7 +44,7 @@ export function pick<T, K extends keyof T>(o?: T | null, properties: K[] = []): 
   if (!o) {
     return null;
   }
-  const ret = {} as any;
+  const ret = {} as Pick<T, K>;
   properties.forEach(p => {
     ret[p] = o[p];
   });
