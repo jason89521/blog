@@ -43,9 +43,9 @@ export default function RootLayout({
           <div className='min-h-screen bg-background text-primary transition-colors duration-300'>
             <div className='max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl 2xl:max-w-4xl mx-auto'>
               {children}
+              <Footer />
             </div>
           </div>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

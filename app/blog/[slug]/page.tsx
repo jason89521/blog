@@ -73,18 +73,10 @@ export default async function BlogPost({ params }: { params: Params }) {
               <ArrowRight className='ml-2 h-4 w-4' />
             </Link>
           ) : (
-            <span className='text-gray-600 dark:text-gray-400 text-sm sm:text-base'>
+            <span className='text-gray-600 dark:text-gray-400 text-sm sm:text-base self-end sm:self-auto'>
               沒有更舊的文章了
             </span>
           )}
-        </div>
-        <div className='mt-4 sm:mt-6 text-center'>
-          <Link
-            href='/'
-            className='text-blue-600 dark:text-blue-400 hover:underline text-sm sm:text-base'
-          >
-            返回文章列表
-          </Link>
         </div>
       </footer>
     </div>

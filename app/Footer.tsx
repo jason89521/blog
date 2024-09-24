@@ -5,7 +5,7 @@ export default function Footer() {
 
   return (
     <footer className='w-full bg-background py-6'>
-      <div className='max-w-4xl mx-auto px-4'>
+      <div className='mx-auto px-4'>
         <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
           <Link href='https://github.com/jason89521' passHref target='_blank'>
             <svg
