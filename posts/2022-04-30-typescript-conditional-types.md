@@ -1,13 +1,11 @@
-!title typescript 的 conditional types
-!description 記錄在開發 package 時所學到的 conditional types
-
-# !excerpt
+---
+title: typescript 的 conditional types
+description: 記錄在開發 package 時所學到的 conditional types
+---
 
 最近在開發一個簡化使用 `useReducer` 流程的 package，雖然實作起來不難，但是想要讓它能夠有很好的 type definition 卻不是一件簡單的事。
 
 那麼，為什麼一定要有良好的 type definition 呢？就算沒有，這個 package 不是也能 work 嗎？確實，即便沒有 type definition，這個 package 也能夠正常使用。然而，我認為身為一個 package developer，除了提供 package 的功能以外，也應該要提供良好的開發者體驗。
-
-# !content
 
 ## 什麼是 conditional types
 

@@ -1,15 +1,13 @@
-!title Next.js 的 getStaticPaths
-!description 如何使用 Next.js 中的 getStaticPaths 去預先渲染 dynamic routes 畫面。
-
-# !excerpt
+---
+title: Next.js 的 getStaticPaths
+description: 如何使用 Next.js 中的 getStaticPaths 去預先渲染 dynamic routes 畫面。
+---
 
 如果想要 Next.js 在 server 端就產出網頁內容，並且又想使用 dynamic routes 的話，除了使用 `getStaticProps` 之外，還必須搭配 `getStaticPaths`，如此一來 Next.js 才會預先在 server 端就把畫面渲染出來。
 
 那麼，在什麼樣的情況下會需要使用 `getStaticPaths` 呢？部落格就是一個很好的例子，我們將文章寫好後，透過 `getStaticPaths` 產生出所有文章的 paths，接著在 `getStaticProps` 就可以根據 path 去 render 不同的頁面。[Next.js](https://nextjs.org/docs/basic-features/data-fetching/get-static-paths#when-should-i-use-getstaticpaths)也有列出一些應該使用 `getStaticPaths` 的情況，有興趣的讀者可以點擊連結去看看。
 
 本篇文章不會介紹什麼是 Next.js，而會著重在如何使用 `getStaticPaths`，所以如果讀者不知道什麼是 Next.js 的話，推薦先去 Next.js 的 [Learn Course](https://nextjs.org/learn/basics/create-nextjs-app) 學習。
-
-# !content
 
 ## 檔案結構
 

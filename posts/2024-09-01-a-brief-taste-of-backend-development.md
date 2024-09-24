@@ -1,11 +1,9 @@
-!title 淺嚐後端
-!description 記錄學習後端的過程
-
-# !excerpt
+---
+title: 淺嚐後端
+description: 記錄學習後端的過程
+---
 
 之前有提到我前端的知識都是在 [The Odin Project](https://www.theodinproject.com/dashboard) 學的，其實這個網站除了前端的知識以外，也有後端的教學。趁著這次放暑假，我快速的把後端的部分看過一遍，然後做其中一個 [project](https://www.theodinproject.com/lessons/nodejs-messaging-app) 試試水溫。
-
-# !content
 
 ## 課程簡述
 

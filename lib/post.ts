@@ -1,9 +1,9 @@
-import { Block, parseRoot } from 'codehike/blocks';
 import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { ReactNode } from 'react';
 import { z } from 'zod';
 import { pick, safeAwait } from './utils';
+import { MDXContent } from 'mdx/types';
 
 interface Post {
   title: string;
@@ -14,12 +14,11 @@ interface Post {
   slug: string;
 }
 
-const Schema = Block.extend({
-  excerpt: Block,
+const MetadataSchema = z.object({
   title: z.string(),
   description: z.string(),
-  content: Block,
 });
+
 const DATE_PATTERN = /\d{4}-\d{1,2}-\d{1,2}/g;
 
 async function listPostFilenames() {
@@ -68,21 +67,34 @@ export async function getPost(slug: string): Promise<GetPostResult | null> {
 }
 
 async function getPostData(filename: string): Promise<Post> {
-  const m: typeof import('*.md') = await import(`@/posts/${filename}`);
+  const m = await import(`@/posts/${filename}`);
+  const metadata = MetadataSchema.parse(m.metadata);
+  const content = m.default() as ReturnType<MDXContent>;
+  const excerpt = (() => {
+    const children = content.props.children as JSX.Element[];
+    const h2Index = children.findIndex(el => {
+      return typeof el.type === 'string' && el.type === 'h2';
+    });
+
+    if (h2Index === -1) {
+      return [];
+    }
+
+    return children.slice(0, h2Index);
+  })();
+
   const { name } = path.parse(filename);
   const dateMatch = filename.match(DATE_PATTERN);
   if (!dateMatch) {
     throw new Error('Cannot match date in post file.');
   }
   const date = dateMatch[0];
-  const { title, description, excerpt, content } = parseRoot(m.default, Schema);
 
   return {
-    title,
-    description,
-    excerpt: excerpt.children,
+    ...metadata,
+    excerpt,
     slug: name,
     date,
-    content: content.children,
+    content,
   };
 }

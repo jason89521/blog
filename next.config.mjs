@@ -1,6 +1,8 @@
 import createMDX from '@next/mdx';
-import { remarkCodeHike, recmaCodeHike } from 'codehike/mdx';
+import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import { remarkCodeHike, recmaCodeHike } from 'codehike/mdx';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -15,7 +17,12 @@ const chConfig = {
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [[remarkCodeHike, chConfig], remarkGfm],
+    remarkPlugins: [
+      [remarkCodeHike, chConfig],
+      remarkGfm,
+      remarkFrontmatter,
+      [remarkMdxFrontmatter, { name: 'metadata' }],
+    ],
     recmaPlugins: [[recmaCodeHike, chConfig]],
     jsx: true,
   },

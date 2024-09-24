@@ -1,13 +1,11 @@
-!title 2022 Dcard Frontend Intern 面試分享
-!description 分享 2022 Dcard Frontend Intern 的面試經驗
-
-# !excerpt
+---
+title: 2022 Dcard Frontend Intern 面試分享
+description: 分享 2022 Dcard Frontend Intern 的面試經驗
+---
 
 在一月底的時候，我在求職網上看到了 Dcard 開出了前端實習生的職缺。雖然條件很吸引人，但其實我還是猶豫了很久，一直到快二月底才開始做前置的作業。之所以會猶豫是因為我在前端這塊領域上的經驗不多，履歷上也沒有什麼令人驚豔的作品或是厲害的經歷，感覺就算投遞了也是會被刷掉。簡單來說，就是害怕失敗吧。
 
 但是，能夠進到 Dcard 工作實在是太吸引我了，而且就算被刷掉了，我也不是一無所獲，至少還能把前置作業當成是一個作品來充實我的履歷。
-
-# !content
 
 ## 面試流程
 
