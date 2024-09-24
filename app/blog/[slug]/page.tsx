@@ -2,9 +2,22 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getPost } from '@/lib/post';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
 
 interface Params {
   slug: string;
+}
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const post = await getPost(params.slug);
+  if (!post) {
+    redirect('/');
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
 }
 
 export default async function BlogPost({ params }: { params: Params }) {
