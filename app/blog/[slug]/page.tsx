@@ -48,7 +48,7 @@ export default async function BlogPost({ params }: { params: Params }) {
             </Link>
           ) : (
             <span className='text-gray-400 dark:text-gray-600 text-sm sm:text-base'>
-              No previous post
+              沒有更新的文章了
             </span>
           )}
           {nextPost ? (
@@ -61,7 +61,7 @@ export default async function BlogPost({ params }: { params: Params }) {
             </Link>
           ) : (
             <span className='text-gray-400 dark:text-gray-600 text-sm sm:text-base'>
-              No next post
+              沒有更舊的文章了
             </span>
           )}
         </div>
