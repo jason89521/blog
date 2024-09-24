@@ -40,7 +40,9 @@ export default function RootLayout({
         <ThemeProvider>
           <ThemeToggleButton />
           <div className='min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300'>
-            <div className='max-w-lg sm:max-w-xl md:max-w-2xl mx-auto'>{children}</div>
+            <div className='max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl 2xl:max-w-4xl mx-auto'>
+              {children}
+            </div>
           </div>
         </ThemeProvider>
       </body>
