@@ -60,7 +60,7 @@ export default async function BlogPost({ params }: { params: Params }) {
               <span className='line-clamp-1'>{previousPost.title}</span>
             </Link>
           ) : (
-            <span className='text-gray-400 dark:text-gray-600 text-sm sm:text-base'>
+            <span className='text-gray-600 dark:text-gray-400 text-sm sm:text-base'>
               沒有更新的文章了
             </span>
           )}
@@ -73,7 +73,7 @@ export default async function BlogPost({ params }: { params: Params }) {
               <ArrowRight className='ml-2 h-4 w-4' />
             </Link>
           ) : (
-            <span className='text-gray-400 dark:text-gray-600 text-sm sm:text-base'>
+            <span className='text-gray-600 dark:text-gray-400 text-sm sm:text-base'>
               沒有更舊的文章了
             </span>
           )}

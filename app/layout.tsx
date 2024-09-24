@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/context/Theme';
 import { getInitTheme } from '@/lib/utils';
 import ThemeToggleButton from './ThemeToggleButton';
+import Footer from './Footer';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -39,11 +40,12 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider>
           <ThemeToggleButton />
-          <div className='min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300'>
+          <div className='min-h-screen bg-background text-primary transition-colors duration-300'>
             <div className='max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl 2xl:max-w-4xl mx-auto'>
               {children}
             </div>
           </div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
