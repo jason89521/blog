@@ -45,7 +45,6 @@ export default async function BlogPost({ params }: { params: Params }) {
       </header>
       <main>
         <article className='prose dark:prose-invert max-w-none text-sm sm:text-base'>
-          {post.excerpt}
           {post.content}
         </article>
       </main>
