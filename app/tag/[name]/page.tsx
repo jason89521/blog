@@ -1,7 +1,7 @@
+import Header from '@/app/Header';
 import TagGroup from '@/components/TagGroup';
 import { Badge } from '@/components/ui/badge';
 import { listPostByTag } from '@/lib/post';
-import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 interface Params {
@@ -13,22 +13,12 @@ export default async function TagPage({ params }: { params: Params }) {
   const filteredPosts = await listPostByTag(tag);
 
   return (
-    <div className='py-4 sm:py-8 px-4 min-h-screen'>
-      <header className='mb-12 relative'>
-        <div className='flex justify-between items-center mb-4'>
-          <Link
-            href='/'
-            className='inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline text-sm sm:text-base'
-          >
-            <ArrowLeft className='mr-2 h-4 w-4' />
-            Back to all posts
-          </Link>
-        </div>
-        <h1 className='text-3xl sm:text-4xl font-bold mb-2'>Posts tagged with &quot;{tag}&quot;</h1>
+    <div>
+      <Header title={tag}>
         <Badge variant='secondary' className='text-sm'>
           {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'}
         </Badge>
-      </header>
+      </Header>
       <main>
         {filteredPosts.length > 0 ? (
           <ul className='space-y-8'>

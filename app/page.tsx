@@ -6,7 +6,7 @@ export default async function BlogIndex() {
   const posts = await listPost();
 
   return (
-    <div className='py-8 px-4'>
+    <div>
       <header className='mb-12 text-center relative'>
         <h1 className='text-4xl font-bold mb-2'>Yu Xuan&apos;s Blog</h1>
         <p className='text-xl text-gray-600 dark:text-gray-400'>記錄一些學到的東西，以及生活雜記</p>

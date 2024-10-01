@@ -4,6 +4,7 @@ import { getPost } from '@/lib/post';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import TagGroup from '@/components/TagGroup';
+import Header from '@/app/Header';
 
 interface Params {
   slug: string;
@@ -30,21 +31,11 @@ export default async function BlogPost({ params }: { params: Params }) {
   const { previousPost, nextPost, ...post } = _post;
 
   return (
-    <div className='py-4 sm:py-8 px-4'>
-      <header className='mb-8 sm:mb-12 relative'>
-        <div className='flex justify-between items-center mb-4'>
-          <Link
-            href='/'
-            className='inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline text-sm sm:text-base'
-          >
-            <ArrowLeft className='mr-2 h-4 w-4' />
-            返回文章列表
-          </Link>
-        </div>
-        <h1 className='text-2xl sm:text-4xl font-bold mb-2'>{post.title}</h1>
+    <div>
+      <Header title={post.title}>
         <TagGroup tags={post.tags} />
         <p className='text-sm sm:text-base text-gray-600 dark:text-gray-400'>{post.date}</p>
-      </header>
+      </Header>
       <main>
         <article className='prose dark:prose-invert max-w-none text-sm sm:text-base'>
           {post.content}
