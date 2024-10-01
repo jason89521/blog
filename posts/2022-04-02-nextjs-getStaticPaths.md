@@ -1,6 +1,9 @@
 ---
 title: Next.js 的 getStaticPaths
 description: 如何使用 Next.js 中的 getStaticPaths 去預先渲染 dynamic routes 畫面。
+tags:
+  - Next.js
+  - Page Router
 ---
 
 如果想要 Next.js 在 server 端就產出網頁內容，並且又想使用 dynamic routes 的話，除了使用 `getStaticProps` 之外，還必須搭配 `getStaticPaths`，如此一來 Next.js 才會預先在 server 端就把畫面渲染出來。

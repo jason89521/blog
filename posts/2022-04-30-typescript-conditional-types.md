@@ -1,6 +1,9 @@
 ---
 title: typescript 的 conditional types
 description: 記錄在開發 package 時所學到的 conditional types
+tags:
+  - TypeScript
+  - Package
 ---
 
 最近在開發一個簡化使用 `useReducer` 流程的 package，雖然實作起來不難，但是想要讓它能夠有很好的 type definition 卻不是一件簡單的事。

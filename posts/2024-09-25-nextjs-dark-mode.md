@@ -1,6 +1,8 @@
 ---
 title: 在 Next.js 內實作 Dark Mode
 description: 在 Next.js app router 的架構下實作簡單的 Dark Mode
+tags:
+  - Next.js
 ---
 
 這幾天用 Next.js 的 app router 建了這個 Blog，想說學東西的時候順便記錄一下，然後放上來。因為我自己覺得 light mode 看了眼睛很痛，所以不管用什麼 App 都會先看有沒有 dark mode 可以開。

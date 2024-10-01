@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getPost } from '@/lib/post';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
+import TagGroup from '@/components/TagGroup';
 
 interface Params {
   slug: string;
@@ -41,6 +42,7 @@ export default async function BlogPost({ params }: { params: Params }) {
           </Link>
         </div>
         <h1 className='text-2xl sm:text-4xl font-bold mb-2'>{post.title}</h1>
+        <TagGroup tags={post.tags} />
         <p className='text-sm sm:text-base text-gray-600 dark:text-gray-400'>{post.date}</p>
       </header>
       <main>

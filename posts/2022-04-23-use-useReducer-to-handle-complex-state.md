@@ -1,6 +1,8 @@
 ---
 title: 使用 useReducer 來處理複雜的 state
 description: 為什麼要用 useReducer 處理複雜的 state 以及要如何簡化使用 useReducer 所需要的流程。
+tags:
+  - React
 ---
 
 最近在 Medium 上看到一篇文章說，在處理比較複雜的 state 時，應該使用 `useReducer` 將 state 變化的邏輯從 component 中抽離出來。想想覺得滿有道理的，以不久前做的 [todo-app](https://github.com/jason89521/react-todo) 為例子，如果我想要更新其中一個 todo 的話，用 `useState` 我需要在 component 這樣寫：

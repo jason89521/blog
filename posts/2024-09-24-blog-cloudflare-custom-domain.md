@@ -1,6 +1,9 @@
 ---
 title: Cloudflare domain & Vercel
 description: 記錄一下在 Cloudflare 購買 domain 並且把 Blog 部署到 Vercel
+tags:
+  - Cloudflare
+  - Vercel
 ---
 
 這幾天在 Cloudflare 上買了一個 domain ，也就是各位目前看到的 yuxuanzheng.dev，想說把部落格搬來這裡，所以寫了一個新 site 然後部署到 Vercel，這篇文章就是單純記錄一下這個過程。

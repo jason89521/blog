@@ -2,7 +2,7 @@ import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { ReactNode } from 'react';
 import { z } from 'zod';
-import { pick, safeAwait } from './utils';
+import { isNonNullable, pick, safeAwait } from './utils';
 import { MDXContent } from 'mdx/types';
 
 interface Post {
@@ -12,11 +12,13 @@ interface Post {
   description: string;
   date: string;
   slug: string;
+  tags: string[];
 }
 
 const MetadataSchema = z.object({
   title: z.string(),
   description: z.string(),
+  tags: z.array(z.string()).optional().default([]),
 });
 
 const DATE_PATTERN = /\d{4}-\d{1,2}-\d{1,2}/g;
@@ -38,6 +40,21 @@ export async function listPost(): Promise<ListPostResult[]> {
       return data;
     })
   );
+}
+
+export async function listPostByTag(tag: string) {
+  const filenames = await listPostFilenames();
+  const posts = (
+    await Promise.all(
+      filenames.map(async filename => {
+        const data = await getPostData(filename);
+        const hit = data.tags.includes(tag);
+        return hit ? data : null;
+      })
+    )
+  ).filter(isNonNullable);
+
+  return posts;
 }
 
 interface GetPostResult extends Post {

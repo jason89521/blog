@@ -1,3 +1,4 @@
+import TagGroup from '@/components/TagGroup';
 import { listPost } from '@/lib/post';
 import Link from 'next/link';
 
@@ -21,6 +22,7 @@ export default async function BlogIndex() {
                 </h3>
               </Link>
               <article className='prose dark:prose-invert max-w-none'>{post.excerpt}</article>
+              <TagGroup tags={post.tags} />
               <span className='block mt-2 text-sm text-gray-500 dark:text-gray-500'>
                 {post.date ?? '2024-04-04'}
               </span>
