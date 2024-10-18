@@ -65,6 +65,46 @@ Docker Compose 只能做到很基本的 containers 管理，如果要更強大�
 - Docker Swarm
 - Kubernetes
 
+## Dockerfile
+
+Dockerfile 是用來告訴 Docker 如何建立 image 的檔案，以下是一個簡單的 Node.js Dockerfile。
+
+```Dockerfile
+FROM alpine
+# Install Node and NPM
+RUN apk add --update nodejs npm curl
+# Copy app to /src
+COPY . /src
+WORKDIR /src
+# Install dependencies
+RUN npm install
+EXPOSE 8080
+ENTRYPOINT ["node", "./app.js"]
+```
+
+每一行都是一個指令，告訴 Docker 要如何打包 image，有些指令是可以被 cache 的，例如 `FROM`, `RUN` 等等。會需要 cache 是因為有些指令可能會耗費很多時間，但是這些指令又不一定會頻繁更動的，例如 `FROM alpine`，有了 cache 之後，就可以省下許多時間。
+
+每一個指令都會被轉成 layer，當這個 layer 的 cache 命中時，就會直接使用 cache，接著執行下一個指令，直到 cache miss。以上面的 Dockerfile 作為例子，會頻繁更動的地方一定是 source code 的部分，所以在 `COPY . /src` 之前的 layer 都會直接使用 cache，而在之後 `npm install` 因為前一個指令的 cache miss 了，所以會真的去執行 `npm install`。
+
+### Command & Argument
+
+現在我們有一個簡單的 Dockerfile，這個 Dockerfile 建立了一個 image，會讓 ubuntu sleep 5 秒。
+
+```Dockerfile
+FROM Ubuntu
+CMD sleep 5
+```
+
+當我們建立 image 並且取名為 `ubuntu-sleeper` 之後，就可以執行 `docker run ubuntu-sleeper`。
+
+但如果我們想要 `ubuntu-sleeper` 的 sleep 秒數是可變動的話，該怎麼做？
+
+我們可以執行 `docker run ubuntu-sleeper` 來覆蓋掉 Dockerfile 的 command。
+
+另外一種方法是把 Dockerfile 的 `CMD sleep 5` 改成 `ENTRYPOINT ["sleep"]`，接著執行 `docker run ubuntu-sleeper 10`。但這樣做的話，如果我們執行 `docker run ubuntu-sleeper`，會發生錯誤，因為 `sleep` 指令沒有傳入任何參數。
+
+要解決這個問題，我們可以在 `ENTRYPOINT ["sleep"]` 底下加上 `CMD ["5"]`，這樣預設就會是 sleep 5 秒了。
+
 ## 常用指令
 
 ### `docker run`
