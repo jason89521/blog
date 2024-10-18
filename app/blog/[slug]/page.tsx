@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { getPost } from '@/lib/post';
+import { getPost, listPost } from '@/lib/post';
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import TagGroup from '@/components/TagGroup';
@@ -20,6 +20,14 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: post.title,
     description: post.description,
   };
+}
+
+export async function generateStaticParams() {
+  const posts = await listPost();
+
+  return posts.map(post => ({
+    slug: post.slug,
+  }));
 }
 
 export default async function BlogPost({ params }: { params: Params }) {
