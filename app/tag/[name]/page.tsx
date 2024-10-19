@@ -1,7 +1,7 @@
 import Header from '@/app/Header';
 import TagGroup from '@/components/TagGroup';
 import { Badge } from '@/components/ui/badge';
-import { listPost, listPostByTag } from '@/lib/post';
+import { listPost } from '@/lib/post';
 import Link from 'next/link';
 
 interface Params {
@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 
 export default async function TagPage({ params }: { params: Params }) {
   const tag = params.name.replace(/%20/g, ' ');
-  const filteredPosts = await listPostByTag(tag);
+  const filteredPosts = await listPost();
 
   return (
     <div>
