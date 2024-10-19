@@ -17,7 +17,6 @@
     "@tailwindcss/typography": "^0.5.15",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "codehike": "^1.0.1",
     "lucide-react": "^0.452.0",
     "next": "14.2.13",
     "next-mdx-remote": "^5.0.0",
