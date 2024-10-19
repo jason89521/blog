@@ -1,11 +1,23 @@
 import Header from '@/app/Header';
 import TagGroup from '@/components/TagGroup';
 import { Badge } from '@/components/ui/badge';
-import { listPostByTag } from '@/lib/post';
+import { listPost, listPostByTag } from '@/lib/post';
 import Link from 'next/link';
 
 interface Params {
   name: string;
+}
+
+export async function generateStaticParams(): Promise<Params[]> {
+  const posts = await listPost();
+  const tagSet = posts.reduce((set, post) => {
+    post.tags.forEach(tag => set.add(tag));
+    return set;
+  }, new Set<string>());
+
+  return [...tagSet].map(tag => {
+    return { name: tag };
+  });
 }
 
 export default async function TagPage({ params }: { params: Params }) {
