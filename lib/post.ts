@@ -66,19 +66,23 @@ export async function listPost(): Promise<Post[]> {
   );
 }
 
-export async function listPostByTag(tag: string) {
+export async function listPostByTag(tag: string): Promise<Post[]> {
   const filenames = await listPostFilenames();
-  const posts = (
-    await Promise.all(
-      filenames.map(async filename => {
-        const data = await getShortPost(filename);
-        const hit = data.tags.includes(tag);
-        return hit ? data : null;
-      })
-    )
-  ).filter(isNonNullable);
+  isNonNullable(tag);
+  isNonNullable(filenames);
+  // const posts = (
+  //   await Promise.all(
+  //     filenames.map(async filename => {
+  //       const data = await getShortPost(filename);
+  //       const hit = data.tags.includes(tag);
+  //       return hit ? data : null;
+  //     })
+  //   )
+  // ).filter(isNonNullable);
 
-  return posts;
+  // return posts;
+
+  return [];
 }
 
 interface GetPostResult extends Post {
