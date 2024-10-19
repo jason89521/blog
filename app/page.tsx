@@ -21,7 +21,7 @@ export default async function BlogIndex() {
                   {post.title}
                 </h3>
               </Link>
-              <article className='prose dark:prose-invert max-w-none'>{post.excerpt}</article>
+              <article className='prose dark:prose-invert max-w-none'>{post.content}</article>
               <TagGroup tags={post.tags} />
               <span className='block mt-2 text-sm text-gray-500 dark:text-gray-500'>
                 {post.date ?? '2024-04-04'}

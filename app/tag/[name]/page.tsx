@@ -30,7 +30,7 @@ export default async function TagPage({ params }: { params: Params }) {
                   </h2>
                 </Link>
                 <article className='prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 mb-2'>
-                  {post.excerpt}
+                  {post.content}
                 </article>
                 <TagGroup activeTag={tag} tags={post.tags} />
                 <span className='text-sm text-gray-500 dark:text-gray-500'>{post.date}</span>

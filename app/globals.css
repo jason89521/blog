@@ -83,3 +83,10 @@ body {
 [data-theme="light"] [data-hide-on-theme="light"] {
   display: none;
 }
+
+.shiki[data-filename]::before {
+  content: attr(data-filename);
+  display: block;
+  border-bottom: 1px solid #dbd7caee;
+  margin-bottom: 1rem;
+}
