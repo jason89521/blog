@@ -1,14 +1,15 @@
-import { readdir } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { ReactNode } from 'react';
 import { z } from 'zod';
 import { isNonNullable, pick, safeAwait } from './utils';
-import { MDXContent } from 'mdx/types';
+import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
+import rehypeShiki, { RehypeShikiOptions } from '@shikijs/rehype';
 
 interface Post {
   title: string;
   content: ReactNode;
-  excerpt: ReactNode;
   description: string;
   date: string;
   slug: string;
@@ -21,6 +22,32 @@ const MetadataSchema = z.object({
   tags: z.array(z.string()).optional().default([]),
 });
 
+const serializeOptions = {
+  parseFrontmatter: true,
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      [
+        rehypeShiki,
+        {
+          theme: 'vitesse-dark',
+          transformers: [
+            {
+              pre(hast) {
+                const raw = this.options.meta?.__raw;
+                if (!raw) {
+                  return;
+                }
+                hast.properties['data-filename'] = raw;
+              },
+            },
+          ],
+        } satisfies RehypeShikiOptions,
+      ],
+    ],
+  },
+} satisfies MDXRemoteProps['options'];
+
 const DATE_PATTERN = /\d{4}-\d{1,2}-\d{1,2}/g;
 
 async function listPostFilenames() {
@@ -29,14 +56,11 @@ async function listPostFilenames() {
   return filenames;
 }
 
-type ListPostResult = Omit<Post, 'content'>;
-
-export async function listPost(): Promise<ListPostResult[]> {
+export async function listPost(): Promise<Post[]> {
   const filenames = await listPostFilenames();
   return await Promise.all(
     filenames.map(async filename => {
-      const data = await getPostData(filename);
-      delete data.content;
+      const data = await getShortPost(filename);
       return data;
     })
   );
@@ -47,7 +71,7 @@ export async function listPostByTag(tag: string) {
   const posts = (
     await Promise.all(
       filenames.map(async filename => {
-        const data = await getPostData(filename);
+        const data = await getShortPost(filename);
         const hit = data.tags.includes(tag);
         return hit ? data : null;
       })
@@ -69,12 +93,12 @@ export async function getPost(slug: string): Promise<GetPostResult | null> {
   if (index === -1) {
     return null;
   }
-  const [, data] = await safeAwait(getPostData(filename));
+  const [, data] = await safeAwait(getLongPost(filename));
   if (!data) {
     return data;
   }
-  const [, previousPost] = await safeAwait(getPostData(filenames[index - 1]));
-  const [, nextPost] = await safeAwait(getPostData(filenames[index + 1]));
+  const [, previousPost] = await safeAwait(getShortPost(filenames[index - 1]));
+  const [, nextPost] = await safeAwait(getShortPost(filenames[index + 1]));
 
   return {
     ...data,
@@ -83,25 +107,29 @@ export async function getPost(slug: string): Promise<GetPostResult | null> {
   };
 }
 
-async function getPostData(filename: string): Promise<Post> {
-  const m = await import(`@/posts/${filename}`);
-  const metadata = MetadataSchema.parse(m.metadata);
-  const content = m.default() as ReturnType<MDXContent>;
-  const excerpt = (() => {
-    const children = content.props.children as JSX.Element[];
-    const h2Index = children.findIndex(el => {
-      return typeof el.type === 'string' && el.type === 'h2';
-    });
+async function getShortPost(filename: string): Promise<Post> {
+  const fileContent = await readPostFile(filename);
+  const h2Index = fileContent.search(/^## .*\n/m);
+  if (h2Index === -1) {
+    throw new Error('Cannot find h2');
+  }
+  const summarySource = fileContent.slice(0, h2Index);
+  return getPostData(filename, summarySource);
+}
 
-    if (h2Index === -1) {
-      return [];
-    }
+async function getLongPost(filename: string): Promise<Post> {
+  const fileContent = await readPostFile(filename);
+  return getPostData(filename, fileContent);
+}
 
-    return children.slice(0, h2Index);
-  })();
-
-  const { name } = path.parse(filename);
-  const dateMatch = filename.match(DATE_PATTERN);
+async function getPostData(filename: string, source: string): Promise<Post> {
+  const { content, frontmatter } = await compileMDX({
+    source,
+    options: serializeOptions,
+  });
+  const metadata = MetadataSchema.parse(frontmatter);
+  const slug = path.parse(filename).name;
+  const dateMatch = slug.match(DATE_PATTERN);
   if (!dateMatch) {
     throw new Error('Cannot match date in post file.');
   }
@@ -109,9 +137,15 @@ async function getPostData(filename: string): Promise<Post> {
 
   return {
     ...metadata,
-    excerpt,
-    slug: name,
-    date,
     content,
+    slug,
+    date,
   };
+}
+
+async function readPostFile(filename: string): Promise<string> {
+  const fileBuffer = await readFile(path.resolve(`posts/${filename}`));
+  const fileContent = fileBuffer.toString();
+
+  return fileContent;
 }
