@@ -8,6 +8,8 @@ interface Params {
   name: string;
 }
 
+export const dynamic = 'force-static';
+
 export async function generateStaticParams() {
   const posts = await listPost();
   const tags = posts.reduce((acc, post) => {
