@@ -1,11 +1,25 @@
 import Header from '@/app/Header';
 import TagGroup from '@/components/TagGroup';
 import { Badge } from '@/components/ui/badge';
-import { listPostByTag } from '@/lib/post';
+import { listPost, listPostByTag } from '@/lib/post';
 import Link from 'next/link';
 
 interface Params {
   name: string;
+}
+
+export async function generateStaticParams() {
+  const posts = await listPost();
+  const tags = posts.reduce((acc, post) => {
+    post.tags.forEach(tag => {
+      acc.add(tag);
+    });
+    return acc;
+  }, new Set<string>());
+
+  return [...tags].map(tag => ({
+    tag,
+  }));
 }
 
 export default async function TagPage({ params }: { params: Params }) {
