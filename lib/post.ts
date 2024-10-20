@@ -7,7 +7,7 @@ import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeShiki, { RehypeShikiOptions } from '@shikijs/rehype';
 
-interface Post {
+export interface Post {
   title: string;
   content: ReactNode;
   description: string;
@@ -49,8 +49,9 @@ const serializeOptions = {
 } satisfies MDXRemoteProps['options'];
 
 const DATE_PATTERN = /\d{4}-\d{1,2}-\d{1,2}/g;
+const POSTS_PER_PAGE = 5;
 
-async function listPostFilenames() {
+export async function listPostFilenames() {
   const filenames = await readdir(path.resolve('posts'));
   filenames.sort((a, b) => b.localeCompare(a));
   return filenames;
@@ -79,6 +80,23 @@ export async function listPostByTag(tag: string) {
   ).filter(isNonNullable);
 
   return posts;
+}
+
+export async function listPostByIndex(index: number): Promise<Post[]> {
+  const start = index * POSTS_PER_PAGE;
+  const end = start + POSTS_PER_PAGE;
+  const filenames = (await listPostFilenames()).slice(start, end);
+
+  return Promise.all(
+    filenames.map(filename => {
+      return getShortPost(filename);
+    })
+  );
+}
+
+export async function getMaxPageIndex(): Promise<number> {
+  const filenames = await listPostFilenames();
+  return Math.floor(filenames.length / POSTS_PER_PAGE);
 }
 
 interface GetPostResult extends Post {
