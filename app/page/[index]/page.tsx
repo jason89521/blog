@@ -18,20 +18,22 @@ export async function generateStaticParams(): Promise<Params[]> {
 
 export default async function Page({ params }: { params: Params }) {
   const index = parseInt(params.index);
-  if (Number.isNaN(index)) {
-    redirect('/');
-  }
-  if (index <= 0) {
+  const maxIndex = await getMaxPageIndex();
+
+  if (Number.isNaN(index) || index >= maxIndex || index <= 0) {
     redirect('/');
   }
   const posts = await listPostByIndex(index);
   if (posts.length <= 0) {
     redirect('/');
   }
-  const maxIndex = await getMaxPageIndex();
 
   return (
-    <div className='pt-12'>
+    <div>
+      <header className='mb-12 text-center relative'>
+        <h1 className='text-4xl font-bold mb-2'>Yu Xuan&apos;s Blog</h1>
+        <p className='text-xl text-gray-600 dark:text-gray-400'>記錄一些學到的東西，以及生活雜記</p>
+      </header>
       <Pagination posts={posts} index={index} maxIndex={maxIndex} linkPrefix='/page' />
     </div>
   );
