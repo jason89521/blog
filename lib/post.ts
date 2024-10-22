@@ -96,7 +96,7 @@ export async function listPostByIndex(index: number): Promise<Post[]> {
 
 export async function getMaxPageIndex(): Promise<number> {
   const filenames = await listPostFilenames();
-  return Math.floor(filenames.length / POSTS_PER_PAGE);
+  return Math.ceil(filenames.length / POSTS_PER_PAGE);
 }
 
 interface GetPostResult extends Post {

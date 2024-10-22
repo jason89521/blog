@@ -37,7 +37,7 @@ export default function Pagination({ posts, index, maxIndex, linkPrefix, title }
             上一頁
           </Link>
         )}
-        {index < maxIndex && (
+        {index + 1 < maxIndex && (
           <Link href={`${linkPrefix}/${index + 1}`} className='block ml-auto'>
             下一頁
           </Link>
