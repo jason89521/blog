@@ -16,7 +16,8 @@ export async function generateStaticParams(): Promise<Params[]> {
   });
 }
 
-export default async function Page({ params }: { params: Params }) {
+export default async function Page(props: { params: Promise<Params> }) {
+  const params = await props.params;
   const index = parseInt(params.index);
   const maxIndex = await getMaxPageIndex();
 

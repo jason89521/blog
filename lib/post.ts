@@ -127,7 +127,7 @@ export async function getPost(slug: string): Promise<GetPostResult | null> {
 
 async function getShortPost(filename: string): Promise<Post> {
   const fileContent = await readPostFile(filename);
-  const h2Index = fileContent.search(/^## .*\n/m);
+  const h2Index = fileContent.search(/^## .*(\r\n|\n)/m);
   if (h2Index === -1) {
     throw new Error('Cannot find h2');
   }

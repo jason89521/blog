@@ -10,7 +10,8 @@ interface Params {
   slug: string;
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<Params> }): Promise<Metadata> {
+  const params = await props.params;
   const post = await getPost(params.slug);
   if (!post) {
     redirect('/');
@@ -30,7 +31,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BlogPost({ params }: { params: Params }) {
+export default async function BlogPost(props: { params: Promise<Params> }) {
+  const params = await props.params;
   const _post = await getPost(params.slug);
   if (!_post) {
     redirect('/');

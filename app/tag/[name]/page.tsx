@@ -20,7 +20,8 @@ export async function generateStaticParams(): Promise<Params[]> {
   });
 }
 
-export default async function TagPage({ params }: { params: Params }) {
+export default async function TagPage(props: { params: Promise<Params> }) {
+  const params = await props.params;
   const tag = params.name.replace(/%20/g, ' ');
   const filteredPosts = await listPostByTag(tag);
 
